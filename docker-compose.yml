@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+  sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "Your_password123"
+      ACCEPT_EULA: "Y"
+    ports: ["1433:1433"]
+    volumes: [ "sql_data:/var/opt/mssql" ]
+
+  redis:
+    image: redis:7
+    ports: ["6379:6379"]
+
+  web:
+    build:
+      context: ./ERP.Web
+    depends_on: [ sql, redis ]
+    ports: ["5000:80"]
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=sql,1433;Database=ERP;User Id=sa;Password=Your_password123;TrustServerCertificate=True
+
+volumes:
+  sql_data:
