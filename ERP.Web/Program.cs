@@ -8,10 +8,17 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Identity;
 using ERP.Infrastructure.Identity;
 using MediatR;
+using ERP.Infrastructure.Middleware;
 var builder = WebApplication.CreateBuilder(args);
 
 // ConnectionStrings
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Server=sql,1433;Database=ERP;User Id=sa;Password=Your_password123;TrustServerCertificate=True";
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Server=.\\SQLEXPRESS;Database=ERP;User Id=admin_mandarin;Password=mandarin2021@;TrustServerCertificate=True";
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddStackExchangeRedisCache(o => o.Configuration = "redis:6379");
+
+builder.Services.AddAuthentication().AddJwtBearer(); // ← تبسيط، استخدم المفاتيح من JwtTokenService
+
 
 // DB + Identity
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
@@ -35,6 +42,10 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+app.UseMiddleware<AuditMiddleware>();   // تسجيل التدقيق
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Use Tenant Middleware
 app.UseMiddleware<TenantMiddleware>();
