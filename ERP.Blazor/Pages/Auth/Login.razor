@@ -1,0 +1,45 @@
+﻿@page "/login"
+@inject IHttpClientFactory HttpFactory
+@inject ILocalStorageService Storage
+@inject NavigationManager Nav
+@inject AuthenticationStateProvider AuthProvider
+@inject ISnackbar Snackbar
+
+<MudPaper Class="d-flex flex-column mx-auto mt-12 pa-6" Style="max-width:400px;">
+    <MudText Typo="Typo.h5" Align="Align.Center">تسجيل الدخول</MudText>
+
+    <MudTextField @bind-Value="email" Label="البريد الإلكتروني" Variant="Variant.Outlined" />
+    <MudTextField @bind-Value="password" Label="كلمة المرور" Variant="Variant.Outlined" InputType="InputType.Password" />
+
+    <MudButton Variant="Variant.Filled" Color="Color.Primary"
+               OnClick="HandleLogin" Class="mt-4" Disabled="busy">
+        @(busy ? "جاري..." : "دخول")
+    </MudButton>
+</MudPaper>
+
+@code {
+    private string email, password;
+    private bool busy;
+
+    private async Task HandleLogin()
+    {
+        busy = true;
+        var http = HttpFactory.CreateClient("ERPApi");
+        var res = await http.PostAsJsonAsync("/auth/login", new { Email = email, Password = password });
+        if (!res.IsSuccessStatusCode)
+        {
+            Snackbar.Add("بيانات غير صحيحة", Severity.Error);
+            busy = false; return;
+        }
+        var json = await res.Content.ReadFromJsonAsync<AuthResp>();
+        await Storage.SetItemAsStringAsync("token", json!.token);
+        await Storage.SetItemAsStringAsync("refreshToken", json.refreshToken);
+
+        // تحديث AuthState وإعادة التوجيه
+        await ((JwtAuthStateProvider)AuthProvider).GetAuthenticationStateAsync();
+        Nav.NavigateTo("/");
+        busy = false;
+    }
+
+    private record AuthResp(string token, string refreshToken);
+}
