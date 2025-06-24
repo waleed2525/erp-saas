@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Domain", "ERP.Domain\ERP.Domain.csproj", "{41115C59-2A32-45DB-B325-026E1F1A99CF}"
 EndProject
@@ -11,6 +11,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Web", "ERP.Web\ERP.Web.csproj", "{4F43A90C-4889-4E31-AA10-BA15BADCEF91}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Tests", "ERP.Tests\ERP.Tests.csproj", "{0133E90B-D3C8-4815-9FE2-42621628B092}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Blazor", "ERP.Blazor\ERP.Blazor.csproj", "{1D4B637D-1712-267F-D17A-8F25B49D76B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,10 @@ Global
 		{0133E90B-D3C8-4815-9FE2-42621628B092}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0133E90B-D3C8-4815-9FE2-42621628B092}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0133E90B-D3C8-4815-9FE2-42621628B092}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D4B637D-1712-267F-D17A-8F25B49D76B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D4B637D-1712-267F-D17A-8F25B49D76B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D4B637D-1712-267F-D17A-8F25B49D76B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D4B637D-1712-267F-D17A-8F25B49D76B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
